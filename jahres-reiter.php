@@ -14,8 +14,7 @@ add_action( 'wp_footer', function () {
 </style>
 <script>
 (function(){
-  var box=document.querySelector('#amelia-container'); if(!box) return;
-  var current='all', bar=null;
+  var box=null, current='all', bar=null;
   function yearOf(card){ var t=(card.querySelector('.am-ec__period-date')||card).textContent; var m=t.match(/(20\d\d)/); return m?m[1]:null; }
   function cards(){ return Array.prototype.slice.call(box.querySelectorAll('.am-ec')); }
   function apply(){
@@ -29,9 +28,12 @@ add_action( 'wp_footer', function () {
     if(bar.innerHTML!==html) bar.innerHTML=html;
     cs.forEach(function(c){ var y=yearOf(c); c.classList.toggle('gg-yt-hide', current!=='all' && y!==current); });
   }
+  function start(){
   document.addEventListener('click',function(e){ var b=e.target.closest && e.target.closest('.gg-yt button'); if(!b) return; current=b.getAttribute('data-y'); apply(); });
   var t=0; new MutationObserver(function(){ clearTimeout(t); t=setTimeout(apply,120); }).observe(box,{childList:true,subtree:true});
   apply();
+  }
+  var tries=0; (function wait(){ box=document.querySelector('#amelia-container'); if(box){ start(); return; } if(++tries<60) setTimeout(wait,300); })();
 })();
 </script>
 <?php }, 100 );
