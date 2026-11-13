@@ -282,7 +282,7 @@ const LOGO_SVG='<svg viewBox="90 102 1975 343" aria-hidden="true">'+document.que
 const UTM='utm_source=dryfire-app&utm_medium=app&utm_campaign=dryfire-28';
 const L={
   kurse:   'https://greyground.de/greygroundveranstaltungen/',
-  wissen:  'https://greyground.de/',              // TODO: Ratgeber/Blog-URL eintragen, sobald live
+  wissen:  'https://www.youtube.com/@greyground9543', // bis der Ratgeber auf greyground.de live ist: YouTube
   newsletter: '',                                  // optional: Newsletter-Anmeldeseite (für Stufe-2-Code)
   jaeger:  'https://greyground.de/jaeger/',
   youtube: 'https://www.youtube.com/@greyground9543',
@@ -478,14 +478,14 @@ async function vRang(){const lb=S.lb;let h=heroHTML('#1','Rangliste','Fleiß sch
 
 function hubTeaser(){return `<div class="grid3 sec hub">
   <a class="panel tilt" href="${L.youtube}" target="_blank" rel="noopener"><div class="ic">${IC.play}</div><h3>Videos zu jeder Übung</h3><p>Griff, Abzug, Ziehen, Drills – auf unserem YouTube-Kanal.</p><span class="go">YouTube →</span></a>
-  <a class="panel tilt" href="${u(L.wissen,'teaser')}" target="_blank" rel="noopener"><div class="ic">${IC.book}</div><h3>Wissen &amp; Artikel</h3><p>Technik, Ausrüstung, Training – auf greyground.de.</p><span class="go">Lesen →</span></a>
+  <a class="panel tilt" href="${u(L.wissen,'teaser')}" target="_blank" rel="noopener"><div class="ic">${IC.book}</div><h3>Videos &amp; Technik</h3><p>Griff, Abzug, Rotpunkt, Training – auf unserem YouTube-Kanal.</p><span class="go">Lesen →</span></a>
   <a class="panel tilt" href="${L.patreon}" target="_blank" rel="noopener"><div class="ic">${IC.help}</div><h3>Du kommst nicht weiter?</h3><p>Auf Patreon gehen wir tiefer in die Technik.</p><span class="go">Patreon →</span></a></div>`}
 
 function vMehr(){$('#view').innerHTML=heroHTML('GG','Greyground','Trocken üben. Scharf lernen.','Kurse, Videos und Wissen von Greyground – alles an einem Ort.')+
   `<div class="grid3 sec hub">
   <a class="panel feat tilt" href="${u(L.kurse,'hub')}" target="_blank" rel="noopener"><div class="ph"></div><div class="lbl">Kurse &amp; Termine</div><h2>Pistole 1&amp;2, Pistole 3, Skills and Drills</h2><p>An 10 Standorten in Deutschland und Österreich. Leihwaffe gestellt.</p><span class="btn" style="margin-top:16px;align-self:flex-start">Termine ansehen →</span></a>
   <a class="panel tilt" href="${L.youtube}" target="_blank" rel="noopener"><div class="ic">${IC.play}</div><h3>YouTube</h3><p>Technik, Drills und Ausrüstung im Video.</p><span class="go">Kanal öffnen →</span></a>
-  <a class="panel tilt" href="${u(L.wissen,'hub')}" target="_blank" rel="noopener"><div class="ic">${IC.book}</div><h3>Wissen &amp; Artikel</h3><p>Hintergründe zu Griff, Abzug, Rotpunkt und Training.</p><span class="go">Lesen →</span></a>
+  <a class="panel tilt" href="${u(L.wissen,'hub')}" target="_blank" rel="noopener"><div class="ic">${IC.book}</div><h3>Videos &amp; Technik</h3><p>Griff, Abzug, Rotpunkt und Training im Video erklärt.</p><span class="go">Lesen →</span></a>
   <a class="panel tilt" href="${L.patreon}" target="_blank" rel="noopener"><div class="ic">${IC.help}</div><h3>Patreon</h3><p>Du hängst an einem Punkt fest? Dort gehen wir tiefer.</p><span class="go">Patreon →</span></a>
   <a class="panel tilt" href="${u(L.jaeger,'hub')}" target="_blank" rel="noopener"><div class="ic">${IC.hunt}</div><h3>Für Jäger</h3><p>Kurzwaffe für Fangschuss und Nachsuche.</p><span class="go">Ansehen →</span></a>
   <a class="panel tilt" href="${L.insta}" target="_blank" rel="noopener"><div class="ic">${IC.cam}</div><h3>Instagram</h3><p>Drills, Termine, Einblicke vom Stand.</p><span class="go">Folgen →</span></a></div>
@@ -669,7 +669,7 @@ function renderDone(d){const k=ctaFor(d);wake(false);const fin=!isEx()&&d>=28;
    START
    ============================================================ */
 $('#hdrKurs').href=u(L.kurse,'header');
-$('#footLinks').innerHTML=[['Kurse & Termine',u(L.kurse,'footer')],['YouTube',L.youtube],['Wissen',u(L.wissen,'footer')],['Patreon',L.patreon],['Instagram',L.insta]].map(([t,h])=>`<a href="${h}" target="_blank" rel="noopener">${t}</a>`).join('');
+$('#footLinks').innerHTML=[['Kurse & Termine',u(L.kurse,'footer')],['YouTube',L.youtube],['YouTube',u(L.wissen,'footer')],['Patreon',L.patreon],['Instagram',L.insta]].map(([t,h])=>`<a href="${h}" target="_blank" rel="noopener">${t}</a>`).join('');
 $('#footMail').textContent=L.mail;
 $('#dl').onclick=()=>{try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([SOURCE_HTML],{type:'text/html'}));a.download='Greyground-Dryfire.html';document.body.appendChild(a);a.click();a.remove()}catch(e){}};
 if(window.self!==window.top)$('#dlRow').innerHTML='<span class="muted">Vorschau. Desktop-Version und App (mit Mikrofon-Erkennung) gibt es bei Greyground.</span>';
