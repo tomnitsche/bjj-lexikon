@@ -67,6 +67,13 @@ main{padding:0 0 70px}
 /* Buttons: eckig, flach */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--h);font-weight:700;font-size:15px;letter-spacing:.02em;background:var(--gold);color:#121314;border:1px solid var(--gold);height:48px;padding:0 24px;cursor:pointer;text-decoration:none;border-radius:0;transition:filter .16s,background .16s,border-color .16s}
 .btn:hover{filter:brightness(1.08)}
+.getapp{display:none;border:1px solid var(--gold);background:linear-gradient(180deg,rgba(242,194,48,.12),rgba(242,194,48,.03));margin:16px 0 0;padding:14px 16px;align-items:center;gap:14px;flex-wrap:wrap}
+.getapp.on{display:flex}
+.getapp .ga-t{flex:1;min-width:220px}
+.getapp .ga-t b{display:block;font-family:var(--h);font-size:16px;color:var(--tx)}
+.getapp .ga-t span{font-size:14px;color:var(--t2)}
+.getapp .ga-x{background:none;border:0;color:var(--g1);font-size:22px;line-height:1;cursor:pointer;padding:4px 6px}
+
 .btn:focus-visible,nav button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .btn.ghost{background:rgba(15,16,17,.4);color:var(--tx);border-color:var(--line)}
 .btn.ghost:hover{border-color:var(--g1)}
@@ -254,7 +261,7 @@ footer .fl a:hover{color:var(--gold)}
   </nav>
 </div></header>
 
-<main><div class="wrap" id="view"></div></main>
+<main><div class="wrap"><div class="getapp" id="getApp" role="region" aria-label="Trainer installieren"><div class="ga-t"><b id="gaT">Trainer immer griffbereit</b><span id="gaS"></span></div><button class="btn sm" id="gaBtn" type="button">Installieren</button><button class="ga-x" id="gaX" type="button" aria-label="Hinweis schließen">×</button></div></div><div class="wrap" id="view"></div></main>
 
 <footer><div class="wrap">
   <p><b style="color:var(--tx)">Trockentraining ersetzt kein scharfes Training.</b> Es macht deine Zeit auf dem Stand wertvoller.</p>
@@ -667,6 +674,23 @@ $('#footMail').textContent=L.mail;
 $('#dl').onclick=()=>{try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([SOURCE_HTML],{type:'text/html'}));a.download='Greyground-Dryfire.html';document.body.appendChild(a);a.click();a.remove()}catch(e){}};
 if(window.self!==window.top)$('#dlRow').innerHTML='<span class="muted">Vorschau. Desktop-Version und App (mit Mikrofon-Erkennung) gibt es bei Greyground.</span>';
 if('serviceWorker' in navigator&&location.protocol==='https:'&&window.self===window.top){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+/* Installieren / Speichern prominent oben (13.11.2026) */
+(function(){try{
+  const box=$('#getApp'); if(!box) return;
+  const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+  if(standalone||location.protocol==='file:'||window.self!==window.top) return;
+  try{ if(localStorage.getItem('gg_ga_hide')==='1') return; }catch(e){}
+  const ua=navigator.userAgent, ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document), mobile=ios||/Android/.test(ua);
+  let deferred=null; const T=$('#gaT'), S=$('#gaS'), B=$('#gaBtn');
+  function show(){ box.classList.add('on'); }
+  if(ios){ T.textContent='Als App auf dein iPhone'; S.textContent='Unten auf das Teilen-Symbol tippen, dann „Zum Home-Bildschirm“. Läuft danach wie eine App, auch offline.'; B.style.display='none'; show(); }
+  else if(!mobile){ T.textContent='Trainer auf deinen Rechner holen'; S.textContent='Als Datei speichern, auf den Desktop legen und per Doppelklick öffnen. Läuft auch offline.'; B.textContent='Als Datei speichern'; B.onclick=()=>$('#dl').click(); show(); }
+  window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); deferred=e; T.textContent='Als App installieren'; S.textContent='Ein Klick, dann liegt der Trainer als App auf deinem Gerät. Läuft auch offline.'; B.textContent='App installieren'; B.style.display=''; B.onclick=async()=>{ deferred.prompt(); try{ await deferred.userChoice; }catch(_){} deferred=null; box.classList.remove('on'); }; show(); });
+  window.addEventListener('appinstalled',()=>box.classList.remove('on'));
+  if(/Android/.test(ua)&&!deferred){ T.textContent='Als App aufs Handy'; S.textContent='Im Browser-Menü (⋮) „App installieren“ oder „Zum Startbildschirm hinzufügen“ wählen.'; B.style.display='none'; show(); }
+  $('#gaX').onclick=()=>{ box.classList.remove('on'); try{ localStorage.setItem('gg_ga_hide','1'); }catch(e){} };
+}catch(e){}})();
+
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&R)closeRun()});
 show('heute');
 </script>
