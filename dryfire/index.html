@@ -669,7 +669,7 @@ function renderDone(d){const k=ctaFor(d);wake(false);const fin=!isEx()&&d>=28;
    START
    ============================================================ */
 $('#hdrKurs').href=u(L.kurse,'header');
-$('#footLinks').innerHTML=[['Kurse & Termine',u(L.kurse,'footer')],['YouTube',L.youtube],['YouTube',u(L.wissen,'footer')],['Patreon',L.patreon],['Instagram',L.insta]].map(([t,h])=>`<a href="${h}" target="_blank" rel="noopener">${t}</a>`).join('');
+$('#footLinks').innerHTML=[['Kurse & Termine',u(L.kurse,'footer')],['YouTube',L.youtube],['Patreon',L.patreon],['Instagram',L.insta]].map(([t,h])=>`<a href="${h}" target="_blank" rel="noopener">${t}</a>`).join('');
 $('#footMail').textContent=L.mail;
 $('#dl').onclick=()=>{try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([SOURCE_HTML],{type:'text/html'}));a.download='Greyground-Dryfire.html';document.body.appendChild(a);a.click();a.remove()}catch(e){}};
 if(window.self!==window.top)$('#dlRow').innerHTML='<span class="muted">Vorschau. Desktop-Version und App (mit Mikrofon-Erkennung) gibt es bei Greyground.</span>';
